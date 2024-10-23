@@ -20,6 +20,7 @@
 > * canvas 自定义选区保存截图至本地
 > * canvas 形状组合
 > * canvas 对象绘制动画
+
 This repository provide a canvas editor  aim to display the basic usage of fabricjs, a  third javascript library of processing canvas.
 As of now, the demo's func as below:
 
