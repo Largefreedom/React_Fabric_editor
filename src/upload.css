@@ -1,0 +1,228 @@
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+h1 {
+    font-size: 30px !important;
+}
+
+
+.input-class {
+    display: none;
+}
+
+.upload-button {
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 3px solid rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.upload-button:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+.upload-button.remove {
+    background-color: rgba(251, 4, 16,0.1);
+    border: 3px solid rgb(0,0,0);
+}
+
+.show-img {
+    margin-top: 10px;
+    border-radius: 10px;
+    object-fit: cover;
+    width: 300px;
+    height: auto;
+    border: 2px solid black;
+
+}
+
+.img-btn-color-div {
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
+    justify-content: center;
+    margin-bottom: 10px;
+    height: auto;
+}
+
+
+.seg-button-div {
+    margin-bottom: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.seg-button {
+    background-color: rgb(32, 161, 241);
+    border: 2px solid black;
+    color: white;
+}
+
+
+.color-area{
+    display: flex;
+    flex-direction: column;
+    column-gap: 0px;
+    height: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    
+}
+
+.color-area span {
+    padding: 0px;
+    margin-bottom: 10px;
+}
+
+
+.color-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.color-label {
+    font-size: 14px;
+    margin-top: 5px;
+    color: rgba(0,0,0,0.4);
+}
+
+
+.seg-button:disabled{
+    background-color: gray;
+    border: none;
+    color: rgba(255,255,255,0.5);
+}
+
+.result-img{
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+
+.fileNum-span {
+    font-size: 14px;
+    color: rgba(0,0,0,0.3);
+}
+
+.result_div {
+    display: flex;
+    column-gap: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: gray;
+    padding: 20px;
+    padding-top: 30px;
+    color: white;
+    
+}
+
+.result-item-class{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@keyframes typing {
+    0% { width: 0; } /* Start with zero width */
+    70% { width: 20ch; } /* End at full width */
+    100% { width: 20ch; } /* End at full width */
+    
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; } /* Blinks cursor */
+    50% { border-color: black; }
+}
+
+.process-div {
+    font-family: monospace; /* Monospace font for a typewriter feel */
+    white-space: nowrap; /* Prevents wrapping */
+    overflow: hidden; /* Ensures content stays within the width */
+    border-right: 0.15em solid; /* Cursor effect */
+    width: 20ch; /* Width of the text */
+    font-size: 20px;
+    animation: typing 3s steps(20) infinite, blink-caret 0.75s step-end infinite; /* Animations */
+
+}
+
+.bottom-tip{
+    margin-top: 20px;
+    color: gray;
+}
+
+/* 媒体查询 */
+@media screen and (max-width:700px) {
+
+    h1 {
+        font-size: 20px !important;
+    }
+
+    .upload-button{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 15px;
+    }
+    .img-btn-color-div {
+        flex-direction: column;
+        row-gap: 20px;
+        
+    }
+
+    .seg-button-div{
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center;
+        column-gap: 10px;
+    }
+    .seg-button{
+        display: block;
+        font-size: 14px;
+    }
+
+    .color-area{
+        font-size: 14px;
+        flex-direction: row !important;
+        margin-top: 0px !important;
+        height: 30px !important;
+        align-items: center !important;
+        
+        
+    }
+    .result_div {
+        flex-direction: column;
+        border-radius: 5px;
+        row-gap: 10px;
+        padding: 10px;
+        padding-top: 10px;
+        
+    }
+    .fileNum-span{
+        font-size: 12px;
+    }
+
+    .bottom-tip{
+        margin-top: 10px;
+        font-size: 14px;
+        width: 60%;
+        color: gray;
+    }
+}

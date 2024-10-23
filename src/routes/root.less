@@ -1,0 +1,103 @@
+.tab-list {
+    display: flex;
+    column-gap: 30px;
+    width: 420px;
+    margin-top: 50px;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.5);
+
+
+    .tab-item {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        letter-spacing: .1em;
+        font-size: 20px;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+        cursor: pointer;
+
+    }
+
+    .tab-item.toggle {
+        border-bottom: 3px solid black;
+    }
+}
+
+
+
+
+
+
+.bottom-list {
+    margin-top: 40px;
+    display: flex;
+
+    column-gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    // color: white;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+li {
+    margin: 5px 0;
+    /* Add custom spacing between items */
+    padding: 10px;
+    /* Add custom padding */
+    background-color: #f0f0f0;
+    /* Example background color */
+    border: 2px solid #ccc;
+    /* Example border */
+    border-radius: 5px;
+    /* Example border radius */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 10px;
+
+    flex-wrap: wrap;
+    padding: 20px;
+
+    padding-left: 40px;
+    padding-right: 40px;
+
+
+    a {
+        color: black;
+        font-weight: 500;
+    }
+}
+
+
+
+
+@media screen and (max-width:700px) {
+    li {
+        padding-left: 40px;
+        padding-right: 40px;
+        font-size: 18px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+
+    }
+
+    .bottom-list {
+        flex-wrap: wrap;
+
+    }
+
+    .tab-list {
+        width: 80%;
+        margin-top: 25px;
+
+
+        .tab-item {
+            font-size: 14px;
+        }
+    }
+
+}

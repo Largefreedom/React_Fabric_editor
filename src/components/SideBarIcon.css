@@ -1,0 +1,32 @@
+.icon-button {
+    position: relative;
+    background-color: black;
+    color: white;
+}
+
+.icon-button:hover{
+    background-color: #3a3d4c;
+}
+
+@keyframes tip-show-test {
+    0% {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    
+    }
+  }
+
+.tip {
+    color: white;
+    background-color: #3a3d4c;
+    position: absolute;
+    left: 110%;
+    padding: 5px 5px;
+    border-radius: 5%;
+    animation: tip-show-test 0.3s ease-in-out;
+    text-wrap: nowrap;
+}

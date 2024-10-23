@@ -1,0 +1,130 @@
+.main {
+    display: flex;
+    width: 80vw;
+    padding: 20px;
+
+    .canvas-download {
+        display: flex;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 20px;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        color: rgb(47, 51, 55);
+    }
+
+    .top-district {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid gray;
+        padding-bottom: 20px;
+
+        button {
+            border: 1px solid gray;
+            background-color: rgba(96, 104, 193, 0.8);
+            color: white;
+            margin-left: 20px;
+
+        }
+
+        label {
+            border: 1px solid gray;
+            background-color: rgba(96, 104, 193, 0.8);
+            color: white;
+            padding: 15px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        label:hover {
+            background-color: rgb(96, 104, 193);
+            font-weight: 600;
+        }
+
+        .type-input {
+            display: none;
+        }
+
+        span {
+            margin-left: 20px;
+        }
+
+        .input-cs {
+            margin-left: 50px;
+
+            input {
+                margin-left: 5px;
+                height: 20px;
+                font-size: 20px;
+                border-radius: 5px;
+                padding: 10px;
+            }
+
+            input::placeholder {
+                font-size: 14px;
+            }
+
+        }
+
+    }
+
+    .bottom-pic {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .cavans-cls {
+            display: flex;
+            justify-content: center;
+            background-color: black;
+            font-family: 'Lucida Console', 'Lucida Console Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: white;
+            padding: 20px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-bottom: 30px;
+            // border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 20px;
+
+            .title {
+                font-size: 20px;
+
+
+            }
+
+            .img-list {
+                display: flex;
+                margin-top: 20px;
+
+                align-items: center;
+                column-gap: 20px;
+
+                img {
+                    width: auto;
+                    height: 400px;
+                    object-fit: fill;
+                    border-radius: 10px;
+                    border: 3px solid white;
+
+                }
+
+                .icon-class {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+
+                }
+            }
+
+        }
+    }
+
+
+}
