@@ -1,8 +1,11 @@
 import './root.less'
 import PersonIcon from '@mui/icons-material/Person';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import { useState } from 'react';
+
+
 export default function Root() {
   const [key,setKey] = useState('EXTRA')
   const keyDict = [
@@ -52,11 +55,21 @@ export default function Root() {
               </>}
               {
                 key === 'EXTRA' && 
-                <li>
-                  <GetAppIcon fontSize='large' color='info'>
-                  </GetAppIcon>
-                  <a href={`/utils/img-cover`}>Canvas Download</a>
-              </li>
+                
+                <>
+                  <li>
+                    <GetAppIcon fontSize='large' color='info'>
+                    </GetAppIcon>
+                    <a href={`/utils/img-cover`}>Canvas Download</a>
+                  </li>
+
+                  <li>
+                    <AcUnitIcon fontSize='large' color='info'>
+                    </AcUnitIcon>
+                    <a href={`/utils/data-transfer`}>Data Transfer Demo</a>
+                  </li>
+                </>
+              
               }
           </div>
         </div>

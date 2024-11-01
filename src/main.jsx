@@ -9,6 +9,7 @@ import Upload from './upload.jsx';
 import ExpandImg from './page/img/expandImg.jsx';
 import ImgEditor from './page/editor/imgEditor.jsx';
 import ImgCover from './page/utils/imgCover.jsx';
+import DataTransfer from './page/dataTransfer/dataTransfer.jsx';
 import './index.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -25,6 +26,12 @@ const router = createBrowserRouter([
     path: 'contacts/:contactId',
     element: <Contact></Contact>
   },
+
+  {
+    path: 'utils/data-transfer',
+    element: <DataTransfer></DataTransfer>
+  },
+
   {
     path: 'img/img-editor',
     element: <ImgEditor></ImgEditor>

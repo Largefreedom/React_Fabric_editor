@@ -1,0 +1,61 @@
+.input-class {
+    display: none;
+}
+
+.all {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.btn-list {
+
+    display: flex;
+    justify-content: center;
+
+    button {
+        background-color: black;
+        color: white;
+        border: 1px solid gold;
+    }
+}
+
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+    width: 70%;
+    padding: 10px;
+
+    .list-item {
+        display: flex;
+        background-color: lightgray;
+        border-radius: 3%;
+        padding: 10px 10px;
+        justify-content: space-between;
+        align-items: center;
+
+        .meta-item {
+            display: flex;
+            column-gap: 10px;
+            // align-items: center;
+
+            .file-name {
+                font-weight: bold;
+
+            }
+
+            .file-size {
+                opacity: 50%;
+                font-size: 12px;
+                margin-top: 5%;
+            }
+
+        }
+    }
+}
