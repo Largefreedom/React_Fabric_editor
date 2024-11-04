@@ -27,35 +27,98 @@
 .file-list {
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
-
+    row-gap: 20px;
+    background-color: #edebff;
     width: 70%;
-    padding: 10px;
+    padding: 30px 20px;
+    border-radius: 3%;
 
     .list-item {
         display: flex;
-        background-color: lightgray;
+        background-color: white;
         border-radius: 3%;
         padding: 10px 10px;
         justify-content: space-between;
         align-items: center;
+        column-gap: 10px;
+        position: relative;
 
         .meta-item {
             display: flex;
             column-gap: 10px;
+            flex-direction: column;
+            width: 100%;
+
             // align-items: center;
 
             .file-name {
                 font-weight: bold;
-
+                text-wrap: auto;
             }
 
             .file-size {
-                opacity: 50%;
+                color: rgb(191, 191, 191);
                 font-size: 12px;
-                margin-top: 5%;
-            }
+                margin-top: 0.5rem;
 
+
+            }
         }
+
+
+        .operate {
+            margin: 10px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .item {
+                background-color: rgba(98, 58, 247, 0.6);
+                padding: 12px 15px 10px;
+                border-radius: 8px;
+                font-size: 14px;
+                cursor: pointer;
+                font-family: inherit;
+
+            }
+        }
+
+
+    }
+
+
+    .list-item.probar {
+
+
+        .meta-item.file-name,
+        .meta-item.file-size {
+            opacity: 0.1;
+        }
+
+
+
+        .meta-item {
+            position: relative;
+        }
+
+        .pro-bar {
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            border-radius: 3%;
+            padding: 10px 10px;
+            box-sizing: border-box;
+            color: rgb(255, 255, 255);
+            background-color: rgba(247, 198, 198);
+            font-size: 50px;
+            opacity: 0.95;
+            font-weight: bold;
+
+            display: flex;
+            align-items: center;
+        }
+
     }
 }

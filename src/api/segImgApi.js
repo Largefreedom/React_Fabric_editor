@@ -1,8 +1,5 @@
 import { fetch } from "../utils/fetch";
 import {backendUrl} from '../utils/utils'
-
-
-
 /**
  * 触发模型分割
  */

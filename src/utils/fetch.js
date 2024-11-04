@@ -8,6 +8,7 @@ export async function fetch(options) {
   });
   try {
     const result = await instance(options);
+    console.log('resul r is',result)
     return result.data.data || null;
   } catch (error) {
     alert(error.stack)
