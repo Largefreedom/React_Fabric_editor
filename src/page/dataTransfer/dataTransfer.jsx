@@ -9,51 +9,85 @@ import DoneIcon from '@mui/icons-material/Done';
 import { _submitDir,_startProcesData } from "../../api/utilsApi";
 
 
-
-
 export default function DataTransfer(){
     const [ btnLoading,setBtnLoading] = useState(false)
     const [files,setFiles] = useState([])
-    const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
     const [proBar,setProBar] = useState([])
-    
 
+    const proBarRef = useRef(proBar)
+
+    useEffect(()=>{
+        proBarRef.current = proBar
+    },[proBar])
+
+    
     useEffect(() => {
+        if(files.length === 0 ){
+            queryFileList()
+        }
         const ws = new WebSocket('ws://localhost:8001/api/ws');
-        // Set up event listeners for WebSocket
+             // Set up event listeners for WebSocket
         ws.onopen = () => {
             console.log('WebSocket connection established');
         };
         ws.onmessage = (event) => {
             console.log('Message received:', event.data);
-        // Append new message to the messages state
-            let parseData = JSON.parse(event.data)
-            console.log("data",parseData)
+            WebSocketReceiveData(event.data)
+            // try{
+            //     let parseData = JSON.parse(event.data)
+            //     console.log('proBar is',proBar)
+            //     if(parseData.file_id){
+            //         let fileItem = proBar.filter(item=> item.id === parseData.file_id)[0]
+            //         fileItem.process = parseData.progress
+            //         fileItem.isStart = true
+            //         changeProBarUtil(fileItem,proBar.indexOf(fileItem))
+            //     }
+            // }catch(error){
+            //     console.log('JSON parse error:',error);
+            // }  
         };
         ws.onclose = () => {
-            console.log('WebSocket connection closed');
+                console.log('WebSocket connection closed');
         };
         ws.onerror = (error) => {
             console.error('WebSocket error:', error);
-        };
-        // Clean up the WebSocket connection on component unmount
-        setSocket(ws);
-        if(files.length === 0 ){
-            queryFileList()
         }
+        setSocket(ws); 
         return () => {
-            ws.close();
+            ws.close()
         };
+      
     },[])
+
+    const WebSocketReceiveData = (eventData) => {
+        console.log("veentData is",eventData)
+        console.log('parbAR IS',proBar,proBarRef.current)
+
+
+         try{
+             let parseData = JSON.parse(eventData)
+             if(parseData.file_id){
+                let fileItem = proBarRef.current.filter(item=> item.id === parseData.file_id)[0]
+                fileItem.process = parseData.progress
+                fileItem.isStart = true
+                changeProBarUtil(fileItem,proBarRef.current.indexOf(fileItem))
+            }
+            }catch(error){
+                console.log('JSON parse error:',error);
+        } 
+        
+        
+    }
 
     const queryFileList = async () => {
         setBtnLoading(true)
         const res = await _submitDir({})
         if(res){
+            
             // restore loading status
             setBtnLoading(false)
-            setFiles(res.file_info.slice(0,1))
+            setFiles(res.file_info)
             let progressBarList = []
             res.file_info.forEach(element => {
                 progressBarList.push({
@@ -65,7 +99,8 @@ export default function DataTransfer(){
                     "isStart": false
                 })
             });
-            setProBar(progressBarList.slice(0,1))
+            setProBar(progressBarList)
+            console.log('result prbar is',proBar)
         }
     }
     const changeItem = (fileItem,changeIndex) =>{
@@ -73,11 +108,11 @@ export default function DataTransfer(){
             // 不展示禁掉
             return
         }
-        if(fileItem.process >= 100){
-            fileItem.isStart = false
-            changeProBarUtil(fileItem,changeIndex)
-            return;
-        }
+        // if(fileItem.process >= 100){
+        //     fileItem.isStart = false
+        //     changeProBarUtil(fileItem,changeIndex)
+        //     return;
+        // }
         fileItem.process += 1
         changeProBarUtil(fileItem,changeIndex)
         setTimeout(()=>{
@@ -112,17 +147,18 @@ export default function DataTransfer(){
 
 
     const emitStartEvent = async (changeIndex) => {
-        console.log('before ',proBar,changeIndex)
         let fileItem =  proBar[changeIndex]
         console.log('fileItem is',fileItem.id)
         socket.send(JSON.stringify({
             "clientId":fileItem.id
         }));
+        console.log('requessssssssss')
         const res = await _startProcesData({
             "id": fileItem.id
         })
+        
         if(res){
-            console.log("response is",res)
+            console.log("response----------- is",res)
         }
     }
     
@@ -136,7 +172,7 @@ export default function DataTransfer(){
                 <div className="btn-list">
                     <ButtonSpinner text={`File Query`} loading={btnLoading} onSubmit={queryFileList} ></ButtonSpinner>
                 </div>
-                {files.length> 0 &&
+                {files.length> 0 && socket && 
                     <div className="file-list">
                         {files.map((fileItem,index) => (
                             <div key={index} className="list-item probar">
