@@ -32,20 +32,7 @@ export default function DataTransfer(){
             console.log('WebSocket connection established');
         };
         ws.onmessage = (event) => {
-            console.log('Message received:', event.data);
-            WebSocketReceiveData(event.data)
-            // try{
-            //     let parseData = JSON.parse(event.data)
-            //     console.log('proBar is',proBar)
-            //     if(parseData.file_id){
-            //         let fileItem = proBar.filter(item=> item.id === parseData.file_id)[0]
-            //         fileItem.process = parseData.progress
-            //         fileItem.isStart = true
-            //         changeProBarUtil(fileItem,proBar.indexOf(fileItem))
-            //     }
-            // }catch(error){
-            //     console.log('JSON parse error:',error);
-            // }  
+            WebSocketReceiveData(event.data) 
         };
         ws.onclose = () => {
                 console.log('WebSocket connection closed');
@@ -61,10 +48,6 @@ export default function DataTransfer(){
     },[])
 
     const WebSocketReceiveData = (eventData) => {
-        console.log("veentData is",eventData)
-        console.log('parbAR IS',proBar,proBarRef.current)
-
-
          try{
              let parseData = JSON.parse(eventData)
              if(parseData.file_id){
@@ -191,7 +174,7 @@ export default function DataTransfer(){
                                    
                                 </div>
                                 <div className="operate">
-                                    <div className="item"
+                                    <div className={proBar[index] && proBar[index].process === 100 ? 'item done':'item'}
                                         onClick={()=>{
                                         emitStartEvent(index)   
                                         }}>   {
@@ -201,8 +184,7 @@ export default function DataTransfer(){
                                          proBar[index] && proBar[index].isStart === true  && proBar[index].process <100 && (
                                             <PauseCircleOutlineIcon></PauseCircleOutlineIcon>
                                          )}
-                                         {
-                                            // done 
+                                         {                                           // done 
                                             proBar[index] && proBar[index].process === 100 && (
                                                 <DoneIcon></DoneIcon>
                                             )
