@@ -3,6 +3,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import ImageIcon from '@mui/icons-material/Image';
 import { useState } from 'react';
 
 
@@ -57,6 +58,12 @@ export default function Root() {
                 key === 'EXTRA' && 
                 
                 <>
+                  <li>
+                    <ImageIcon fontSize='large' color='info'>
+                    </ImageIcon>
+                    <a href={`/img/img-editor`}>Canvas Drawer</a>
+                  </li>
+
                   <li>
                     <GetAppIcon fontSize='large' color='info'>
                     </GetAppIcon>

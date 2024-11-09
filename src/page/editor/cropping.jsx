@@ -7,7 +7,6 @@ export default function Cropping({canvas,onFrameUpdated}) {
 
     const addFrameToCanvas = () => {
         const fileName = `Frame ${canvas.getObjects("rect").length +1}`;
-        
         const frame  = new fabric.Rect({
             left: 100,
             top:100,

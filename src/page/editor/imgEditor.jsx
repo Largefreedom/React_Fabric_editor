@@ -2,10 +2,9 @@
 import { useRef, useState,useEffect } from 'react'
 import './imgEditor.css'
 import { fabric } from 'fabric';
-import {IconButton} from 'blocksin-system'
 import { SquareIcon,CircleIcon, Cross1Icon, BorderNoneIcon,FolderOpenedIcon } from 'sebikostudio-icons';
 import Settings from './Settings';
-import { handleObjectMoving,clearGuidelins } from './snappingHelper.js';
+import { handleObjectMoving,clearGuidelins, } from './snappingHelper.js';
 import Cropping from './cropping';
 import CroppingSettings from './CroppingSettings';
 import ImgInputing from './imgInputing';
@@ -16,15 +15,15 @@ import {Switch} from '@mui/material';
 import SideBarIcon from '../../components/SideBarIcon.jsx';
 
 
-
 export default function ImgEditor(){
     const [canvas,setCanvas] = useState(null)
     const [guidelins,setGuildelins] = useState([]) 
-    const canvaref = useRef(null)
     const [refreshKey,setRefreshKey] = useState(0);
     const [groupEle,setGroupEle] = useState([])
     const [showGuideLine, setShowGuideLine]  = useState(true)
-
+    const canvaref = useRef(null)
+    const showGuideLineRef = useRef(showGuideLine)
+    
     const onAddRectangle = () => {
         if(canvas){
             canvas.add(new fabric.Rect({width:100,height:60,fill:'#d84d42',left: 100,top:60}))
@@ -33,15 +32,18 @@ export default function ImgEditor(){
 
     const onAddCircle = () => {
         if(canvas){
-            canvas.add(new fabric.Circle({radius: 50,fill:'#000000',left: 100,top:100}))
+            let circle = new fabric.Circle({radius: 50,fill:'#000000',left: 100,top:100})
+            circle.selectable = true
+            circle.set('active',true)
+            canvas.add(circle)
+            console.log('add  item is ',circle)
+            // let activesSelction = []
+            // activesSelction.push(circle)
+            // canvas.setActiveObject(new fabric.ActiveSelection(activesSelction))
+            canvas.renderAll()
+            console.log('canvas is')
         }
     };
-
-    const onDelteItem = () => {
-        if(canvas){
-            canvas.remove(canvas.getActiveObject())
-        }
-    }
 
     const handleFrameUpdated = () =>{
         setRefreshKey((prevKey) => prevKey +1);
@@ -52,14 +54,18 @@ export default function ImgEditor(){
         if(!showGuide){
             clearGuidelins(canvas);
         }
-        setShowGuideLine(!showGuideLine)
+        // query reverse state of data
+        setShowGuideLine( showGuidLineItem => !showGuidLineItem)
        
     }
 
     const onGroupElements = () => {
+        // cancel event listener
         canvas.off('selection:created')
         canvas.off('selection:updated')
+        // create event listener
         canvas.on('selection:created',(event) => {
+            console.log('aaaaaaaaaaaaaa ',event)
             if(!groupEle.includes(event.selected[0])){
                 // event.selected[0].selectable = true
                 groupEle.push(event.selected[0])
@@ -67,7 +73,6 @@ export default function ImgEditor(){
                 console.log('groupEle created',groupEle)
                 canvas.renderAll()
             }
-           
           
         })
         canvas.on('selection:updated',(event) => {
@@ -121,8 +126,8 @@ export default function ImgEditor(){
         if(canvaref.current) {
             const initCanvas = new fabric.Canvas(canvaref.current,
                 {
-                    width: 500,
-                    height: 500,
+                    width: 600,
+                    height: 600,
                     fireRightClick: true,
                     preserveObjectStacking: true
                 });
@@ -131,17 +136,26 @@ export default function ImgEditor(){
             setCanvas(initCanvas)
 
             initCanvas.on("object:moving",(event) => {
-                handleObjectMoving(initCanvas,event.target,
-                    guidelins,setGuildelins);
+                if(showGuideLineRef.current){
+                    handleObjectMoving(initCanvas,event.target,
+                        guidelins,setGuildelins);
+                } else {
+                    clearGuidelins(initCanvas)
+                }
                 handleObjectRight(event.target,initCanvas)
             })
-
             initCanvas.on("object:modified",(event) => {
-                handleObjectMoving(initCanvas,event.target,
-                    guidelins,setGuildelins);
+                if(showGuideLineRef.current){
+                    handleObjectMoving(initCanvas,event.target,
+                        guidelins,setGuildelins);
+                    
+                }else{
+                    clearGuidelins(initCanvas)
+                }
             })
-            
             initCanvas.on("selection:created",(event) => {
+                console.log('select ied is',event)
+                console.log('selected canvas is',initCanvas)
                 handleObjectRight(event.selected[0],initCanvas)
             })
             return () => {
@@ -149,18 +163,21 @@ export default function ImgEditor(){
             }
         }
     }, [])
+
+    useEffect(()=>{
+        showGuideLineRef.current = showGuideLine
+    },[showGuideLine])
+
+
     return (
         <div className="App" >
             <div className='toolbar darkmode'>
-
                 <ImgInputing canvas={canvas}></ImgInputing>
                 <TextInput canvas={canvas}></TextInput>
                 <Cropping canvas={canvas} onFrameUpdated={handleFrameUpdated}>
                     </Cropping>
                 <SideBarIcon tipName={`添加矩阵`} jsxEle={<SquareIcon></SquareIcon>} func={onAddRectangle}>
                 </SideBarIcon>
-
-
                 <SideBarIcon tipName={`添加圆形`} jsxEle={ <CircleIcon></CircleIcon>} func={onAddCircle}>
                 </SideBarIcon>
 
