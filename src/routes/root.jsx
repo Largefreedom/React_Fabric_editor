@@ -7,6 +7,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import { useState } from 'react';
 
 
+
 export default function Root() {
   const [key,setKey] = useState('EXTRA')
   const keyDict = [
@@ -25,14 +26,10 @@ export default function Root() {
           <h1>AI Image Tools</h1>
             <div className="tab-list">
             {
-              keyDict.map((item,index) => (
-                
+              keyDict.map((item,index) => (                
                   <div key={index} onClick={()=>{
-                    console.log(item)
                     setKey(item.key)
                   }
-                    
-                    
                     } className={ item.key === key ? 'tab-item toggle':'tab-item'}>
                     {item.title}
                   </div>

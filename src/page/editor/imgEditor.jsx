@@ -4,6 +4,8 @@ import './imgEditor.css'
 import { fabric } from 'fabric';
 import { SquareIcon,CircleIcon, Cross1Icon, BorderNoneIcon,FolderOpenedIcon } from 'sebikostudio-icons';
 import Settings from './Settings';
+import SaveIcon from '@mui/icons-material/Save';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 import { handleObjectMoving,clearGuidelins, } from './snappingHelper.js';
 import Cropping from './cropping';
 import CroppingSettings from './CroppingSettings';
@@ -16,14 +18,21 @@ import SideBarIcon from '../../components/SideBarIcon.jsx';
 
 
 export default function ImgEditor(){
-    const [canvas,setCanvas] = useState(null)
+    let [canvas,setCanvas] = useState(null)
     const [guidelins,setGuildelins] = useState([]) 
     const [refreshKey,setRefreshKey] = useState(0);
     const [groupEle,setGroupEle] = useState([])
     const [showGuideLine, setShowGuideLine]  = useState(true)
     const canvaref = useRef(null)
+    const groupEleRef = useRef(groupEle)
     const showGuideLineRef = useRef(showGuideLine)
     
+
+    useEffect(() => {
+        console.log('group ref is ',groupEle)
+        groupEleRef.current = groupEle
+    },[groupEle])
+
     const onAddRectangle = () => {
         if(canvas){
             canvas.add(new fabric.Rect({width:100,height:60,fill:'#d84d42',left: 100,top:60}))
@@ -33,15 +42,7 @@ export default function ImgEditor(){
     const onAddCircle = () => {
         if(canvas){
             let circle = new fabric.Circle({radius: 50,fill:'#000000',left: 100,top:100})
-            circle.selectable = true
-            circle.set('active',true)
             canvas.add(circle)
-            console.log('add  item is ',circle)
-            // let activesSelction = []
-            // activesSelction.push(circle)
-            // canvas.setActiveObject(new fabric.ActiveSelection(activesSelction))
-            canvas.renderAll()
-            console.log('canvas is')
         }
     };
 
@@ -65,35 +66,61 @@ export default function ImgEditor(){
         canvas.off('selection:updated')
         // create event listener
         canvas.on('selection:created',(event) => {
-            console.log('aaaaaaaaaaaaaa ',event)
-            if(!groupEle.includes(event.selected[0])){
+            if(event.selected.length> 0 && !groupEle.includes(event.selected[0]) && event && event.e){
                 // event.selected[0].selectable = true
-                groupEle.push(event.selected[0])
-                setGroupEle((preGroupEle) => [...preGroupEle,event.selected[0]])
-                console.log('groupEle created',groupEle)
+                let otherGroup = [...groupEleRef.current,event.selected[0]]
+                setGroupEle(preGroupEle => [...preGroupEle,event.selected[0]])
+                canvas.discardActiveObject()
+                canvas.setActiveObject(new fabric.ActiveSelection(otherGroup,{canvas:canvas}))
                 canvas.renderAll()
             }
           
         })
         canvas.on('selection:updated',(event) => {
-            if(!groupEle.includes(event.selected[0])){
-                // event.selected[0].hasBorders = true
-                // event.selected[0].selectable = true
-                groupEle.push(event.selected[0])
-                setGroupEle((preGroupEle) => [...preGroupEle,event.selected[0]])
-                console.log('groupEle updated',groupEle)
+            if(event.selected.length> 0 && !groupEle.includes(event.selected[0]) && event && event.e){
+                let otherGroup = [...groupEleRef.current,event.selected[0]]
+                setGroupEle(preGroupEle => [...preGroupEle,event.selected[0]])
+                canvas.discardActiveObject()
+                canvas.setActiveObject(new fabric.ActiveSelection(otherGroup,{canvas:canvas}))
                 canvas.renderAll()
-                
             }
         })
     }
+
+   
+
+    const onSaveCanavsToJson = async () => {
+        const newHandle = await window.showSaveFilePicker();
+        const writableStream = await newHandle.createWritable();
+        let canvasJson  = JSON.stringify(canvas)
+        console.log('canvasJson is',canvasJson)
+        await writableStream.write(canvasJson)
+        await writableStream.close();
+        window.alert("文件已存储完毕")
+    }
+
+    const onReadFromCanvas = async () => {
+        const pickerOpts = {
+            excludeAcceptAllOption: true,
+            multiple: false,
+        };
+        const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
+        const file = await fileHandle.getFile();
+        const text = await file.text();
+        if(text){
+            let readJson = JSON.parse(text)
+            canvas = new fabric.Canvas(canvaref.current)
+            canvas.loadFromJSON(readJson)
+        }
+    }
+
 
     const onCombineGroups = () => {
         if(groupEle.length === 0){
             return
         }
-        console.log('groupEle is',groupEle,groupEle.length)
-        const groups = new  fabric.Group([...groupEle])
+        canvas.discardActiveObject()
+        const groups = new  fabric.Group(groupEle)
         canvas.add(groups)
         canvas.renderAll()
         setGroupEle([])
@@ -155,7 +182,6 @@ export default function ImgEditor(){
             })
             initCanvas.on("selection:created",(event) => {
                 console.log('select ied is',event)
-                console.log('selected canvas is',initCanvas)
                 handleObjectRight(event.selected[0],initCanvas)
             })
             return () => {
@@ -175,13 +201,18 @@ export default function ImgEditor(){
                 <ImgInputing canvas={canvas}></ImgInputing>
                 <TextInput canvas={canvas}></TextInput>
                 <Cropping canvas={canvas} onFrameUpdated={handleFrameUpdated}>
-                    </Cropping>
+                </Cropping>
+    
+                <SideBarIcon tipName={`打开Canvas`} jsxEle={<FileOpenIcon></FileOpenIcon>} func={onReadFromCanvas}>
+                </SideBarIcon>
+                
+                <SideBarIcon tipName={`保存 Canvas`} jsxEle={<SaveIcon></SaveIcon>} func={onSaveCanavsToJson}>
+                </SideBarIcon>
+
                 <SideBarIcon tipName={`添加矩阵`} jsxEle={<SquareIcon></SquareIcon>} func={onAddRectangle}>
                 </SideBarIcon>
                 <SideBarIcon tipName={`添加圆形`} jsxEle={ <CircleIcon></CircleIcon>} func={onAddCircle}>
                 </SideBarIcon>
-
-
                 <SideBarIcon tipName={`形状组合`} jsxEle={ <BorderNoneIcon></BorderNoneIcon>} func={onGroupElements}>
                 </SideBarIcon>
                 {groupEle.length>0 && <SideBarIcon tipName={`组合确认`} jsxEle={ <FolderOpenedIcon></FolderOpenedIcon>} func={onCombineGroups}>

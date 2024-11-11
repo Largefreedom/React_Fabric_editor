@@ -8,12 +8,10 @@ import { fabric } from "fabric";
 
 export default function ImgInputing({canvas}){
     const inputFile = useRef(null);
-    
     const onImgInputClick = () => {
         inputFile.current.click();
         console.log('canvas',canvas)
     }
-
     const onChangeFile = (e) => {
         // event.stopPropagation();
         // event.preventDefault();
@@ -48,7 +46,6 @@ export default function ImgInputing({canvas}){
             onChange={onChangeFile} 
             ref={inputFile} style={{display: 'none'}}/>
         </IconButton>
-        
      </div>   
     )
 }

@@ -1,10 +1,9 @@
-import IconButton from "blocksin-system/dist/IconButton"
+
 import { useState } from "react"
 import './SideBarIcon.css'
 
 export default function SideBarIcon({jsxEle,tipName,func}){
     let [isShow,setIsShow] = useState(false)
-    
     const changeIsShow = (res) => {
         isShow = res
         setIsShow(isShow)
@@ -13,7 +12,8 @@ export default function SideBarIcon({jsxEle,tipName,func}){
     return (
         (
         func ?
-        <IconButton
+        <button
+            className="left-btn"
             onClick={func}
             onMouseEnter={() => {
                 changeIsShow(true)
@@ -28,9 +28,9 @@ export default function SideBarIcon({jsxEle,tipName,func}){
             </span>
             }
             {jsxEle}
-        </IconButton> : 
-        <IconButton
-       
+        </button> : 
+        <button
+         className="left-btn"
             onMouseEnter={() => {
                 changeIsShow(true)
             }}
@@ -44,7 +44,7 @@ export default function SideBarIcon({jsxEle,tipName,func}){
             </span>
             }
             {jsxEle}
-        </IconButton>
+        </button>
         
     )
     

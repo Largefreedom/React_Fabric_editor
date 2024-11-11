@@ -1,11 +1,12 @@
-.icon-button {
-    position: relative;
+.left-btn {
+    border: none;
     background-color: black;
     color: white;
 }
 
-.icon-button:hover{
+.left-btn:hover {
     background-color: #3a3d4c;
+    border: none;
 }
 
 @keyframes tip-show-test {
