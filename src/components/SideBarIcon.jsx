@@ -30,7 +30,7 @@ export default function SideBarIcon({jsxEle,tipName,func}){
             {jsxEle}
         </button> : 
         <button
-         className="left-btn"
+            className="left-btn"
             onMouseEnter={() => {
                 changeIsShow(true)
             }}

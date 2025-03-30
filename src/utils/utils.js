@@ -1,6 +1,6 @@
 
 
-export const backendUrl = "http://192.168.0.199:8088"
+export const backendUrl = "http://localhost:8088"
 
 function componentToHex(c) {
     var hex = c.toString(16);
